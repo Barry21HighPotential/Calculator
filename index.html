@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            font-family: 'Inter', sans-serif, system-ui;
+        }
+
+        .calculator{
+            width: 100%;
+            max-width: 320px;
+            background-color: #2c3e50;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        .calculator-display{
+            width: 100%;
+            background-color: #1a252f;
+            color: #ffffff;
+            font-size: 2.5rem;
+            text-align: right;
+            border: none;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .buttons-grid{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 12px;
+        }
+
+        .btn{
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1ss;
+        };
+        
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-number {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+
+        .btn-number:hover {
+            background-color: #415b76;
+        }
+
+        .btn-operator {
+            background-color: #95a5a6;
+            color: #2c3e50;
+        }
+
+        .btn-operator:hover {
+            background-color: #95a5a6;
+            color: #2c3e50;
+        }
+
+        .btn-clear {
+            background-color: #e74c3c;
+            color: #ffffff;
+        }
+
+        .btn-clear:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-equals {
+            background-color: #2ecc71;
+            color: #ffffff;
+            grid-row: span 2;
+        }
+
+        .btn-equals {
+            background-color: #2ecc71;
+            color: #ffffff;
+            grid-row: span 2;
+        }
+
+        .btn-equals:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-zero {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" class="calculator-display" disabled>
+
+        <div id="buttons-container" class="buttons-grid">
+
+            <!-- row 1 -->
+             <button data-action="clear" class="btn btn-clear">C</button>
+             <button data-value="/" class="btn btn-operator">&divide;</button>
+             <button data-value="*" class="btn btn-operator">&times;</button>
+             <button data-action="delete" class="btn btn-operator">DEL</button>
+
+            <!-- row 2 -->
+            <button data-value="7" class="btn btn-number">7</button>
+            <button data-value="8" class="btn btn-number">8</button>
+            <button data-value="9" class="btn btn-number">9</button>
+            <button data-value="-" class="btn btn-operator">-</button>
+
+            <!-- row 3 -->
+            <button data-value="4" class="btn btn-number">4</button>
+            <button data-value="5" class="btn btn-number">5</button>
+            <button data-value="6" class="btn btn-number">6</button>
+            <button data-value="+" class="btn btn-operator">+</button>
+
+            <!-- row 4 -->
+            <button data-value="1" class="btn btn-number">1</button>
+            <button data-value="2" class="btn btn-number">2</button>
+            <button data-value="3" class="btn btn-number">3</button>
+            <button data-action="calculate" class="btn btn-equals">=</button>
+
+            <!-- row 5 -->
+             <button data-value="0" class="btn btn-number btn-zero">0</button>
+             <button data-value="." class="btn btn-number">.</button>
+        </div>
+
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const buttonContainer = document.getElementById('buttons-container');
+
+        function appendToDisplay(value) {
+            display.value = display.value + value;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+
+        function deleteLast() {
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculateResult() {
+            try{
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+
+        buttonContainer.addEventListener('click', function(event) {
+            const clickedButton = event.target;
+            const value = clickedButton.dataset.value;
+            const action = clickedButton.dataset.action;
+
+            if (value) {
+                appendToDisplay(value);
+            }
+
+            if (action === 'clear') {
+                clearDisplay();
+            } else if (action === 'delete') {
+                deleteLast();
+            } else if (action === 'calculate') {
+                calculateResult();
+            }
+
+        });
+    </script>
+</body>
+</html>
